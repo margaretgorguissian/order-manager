@@ -21,22 +21,29 @@
         }
     </style>
     <script>
+        var db = [
+            {id: "112", name: "STRAWB", price: 599},
+            {id: "145", name: "POTAT", price: 99},
+        ];
         $( "#autocomplete" ).autocomplete({
-          source: [ "c++", "java", "php", "coldfusion", "javascript", "asp",
-              "ruby", "cobol" ],
-          autoFocus: true,
-          select: function(event, ui) {
-              $("#bag").prepend($("<li>").text(ui.item.value));
-              $(this).val('');
-              //equivalent to:
-              //event.target.value = "";
-              return false;
-          },
-          response: function(event, ui) {
-              var entered = event.target.value;
-              ui.content.push({"label": entered + " + ADD ME",
-                               "value": entered});
-          }
+            source: db.map(function (item) {
+                return { label: item.name,
+                         value: item };
+            }),
+            autoFocus: true,
+            select: function(event, ui) {
+                var item = JSON.stringify(ui.item.value);
+                $("#bag").prepend($("<li>").text(item));
+                $(this).val('');
+                //equivalent to:
+                //event.target.value = "";
+                return false;
+            },
+            response: function(event, ui) {
+                var entered = event.target.value;
+                ui.content.push({"label": entered + " + ADD ME",
+                                 "value": entered});
+            }
         });
     </script>
  
